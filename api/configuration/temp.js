@@ -7,7 +7,7 @@ const dataMap = Mock.mock({
       orgId: 925,
       "templateName": "@name",
       "source|1": ['EXTEND', 'OWNER'],
-      "cover": 'http://localhost:8000/public/be2666c120fd4467914e2137d605d2e3.jpeg',
+      "cover|1": ['http://localhost:8000/static/001.jpeg', 'http://localhost:8000/static/002.jpeg'],
       "desc": "",
       "tempType|1": ['INDUSTRY_SCENE', 'INDEPENDENT', 'INDUSTRY_SCENE'],
       "status|1": ['UN_PUBLISH', 'PUBLISHED'],
