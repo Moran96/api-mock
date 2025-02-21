@@ -1,7 +1,10 @@
 const path = require('path')
 const express = require('express')
+const expressWs = require('express-ws')
 const cors = require('cors')
 const app = express()
+
+expressWs(app)
 
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use(cors())
@@ -23,6 +26,20 @@ app.get('/system/dataview/template/page', function (req, res) {
 
 app.post('/system/dataview/template/add', function (req, res) {
   res.json(Configuration.temp.add(req.body))
+})
+
+app.ws('/socket/test', function (ws, req){
+  ws.send('WebSocket connect success.')
+
+  ws.on('message', function (msg) {
+    console.log('[MSG]', Date.now())
+    // console.log(msg)
+    let timer = setTimeout(() => {
+      // ws.send(msg)
+      clearTimeout(timer)
+      timer = null
+    }, 100)
+  })
 })
 
 app.listen(8000, () => {
