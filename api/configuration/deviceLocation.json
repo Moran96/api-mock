@@ -1,0 +1,19 @@
+[{
+  "deviceId": 123445,
+  "deviceKey": "123456789",
+  "deviceName": "123456789",
+  "productId": 1234,
+  "productKey": "pppppp",
+  "productName": "AAAAAA",
+  "deviceStatus": "OFFLINE",
+  "wgsLng": 109,
+  "wgsLat": 34,
+  "bdLng": 109,
+  "bdLat": 34,
+  "gcjLng": 109,
+  "gcjLat": 34,
+  "province": "AAA",
+  "city": "BBB",
+  "countryCode": "CN",
+  "country": "中国"
+}]

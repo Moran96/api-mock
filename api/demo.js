@@ -3,11 +3,13 @@ const Mock = require('mockjs')
 const dataMap = Mock.mock({
   'list|40': [
     {
-      'shopId|+1': 1,
-      shopName: '@name',
-      'shopType|1': ['1', '99'],
-      shopDesc: '',
-      orgName: 'Fake Org',
+      'id|+1': 1,
+      name: '@name',
+      code: /[a-z][A-Z][0-9]{12}/,
+      'type|1': ['1', '99'],
+      desc: '',
+      area: 'Fake Area',
+      parameters: 'Fake',
       tsCreateTime: Date.now()
     }
   ]
@@ -16,7 +18,7 @@ const dataMap = Mock.mock({
 function getList(query) {
   const list = dataMap.list
   // 查询
-  const filtered = filterSearch(list, query, 'shopType', 'shopName')
+  const filtered = filterSearch(list, query, 'code', 'name')
   // 分页
   const paged = pagination(filtered, {
     page: query.pageNum,
@@ -32,9 +34,17 @@ function getList(query) {
   return res
 }
 
+function getListNoPage() {
+  return {
+    msg: 'success',
+    code: 200,
+    data: dataMap.list
+  }
+}
+
 function add(params) {
   const target = {
-    shopId: parseInt(params.shopId),
+    id: parseInt(params.id),
     shopType: params.shopType,
     shopName: params.shopName,
     shopDesc: params.shopDesc,
@@ -52,10 +62,10 @@ function add(params) {
 }
 
 function update(params) {
-  const target = dataMap.list.find((item) => item.shopId === params.shopId)
+  const target = dataMap.list.find((item) => item.id === params.id)
 
   const targetUpdate = {
-    shopId: parseInt(params.shopId),
+    id: parseInt(params.id),
     shopType: params.shopType,
     shopName: params.shopName,
     shopDesc: params.shopDesc
@@ -72,9 +82,8 @@ function update(params) {
 }
 
 function remove(body) {
-  const targetIdx = dataMap.list.findIndex(
-    (item) => item.shopId === body.shopId
-  )
+  const id = Number(body.id)
+  const targetIdx = dataMap.list.findIndex((item) => item.id === id)
   dataMap.list.splice(targetIdx, 1)
   return {
     msg: 'SUCCESS',
@@ -87,5 +96,6 @@ module.exports = {
   add,
   update,
   getList,
+  getListNoPage,
   remove
 }
