@@ -1,3 +1,5 @@
+const { queryInterval } = require('./common/queryInterval')
+
 function postAdd() {
   return {
     msg: 'Add Success',
@@ -25,7 +27,8 @@ function deleteRemove() {
 const CommonApi = {
   add: postAdd(),
   update: putEdit(),
-  remove: deleteRemove()
+  remove: deleteRemove(),
+  queryInterval
 }
 
 module.exports = CommonApi

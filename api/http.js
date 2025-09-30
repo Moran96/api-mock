@@ -27,6 +27,10 @@ function useHttpApis(app) {
   app.get('/screen/deviceLocationList', function (req, res) {
     res.json(CGS.location.getList())
   })
+
+  app.get('/queryInterval', function (req, res) {
+    res.json(CommonApi.queryInterval())
+  })
 }
 
 module.exports = useHttpApis
