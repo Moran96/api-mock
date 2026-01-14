@@ -6,11 +6,8 @@
  * @param {string | number} options.step 步长
  * @returns {Array} 分页后的数据列表
  */
-function pagination (list, options) {
-  const {
-    page,
-    step
-  } = options
+function pagination(list, options) {
+  const { page, step } = options
 
   const pageNum = page ? Number(page) : 1
   const pageSize = step ? Number(step) : 10
@@ -27,9 +24,9 @@ function pagination (list, options) {
  * @param {Object} query 查询对象
  * @param {string} precise 精准查询过滤字段字符串 用逗号分隔
  * @param {string} fuzzy 模糊查询过滤字段字符串 用逗号分隔
- * @returns 
+ * @returns
  */
-function filterSearch (list, query, precise, fuzzy) {
+function filterSearch(list, query, precise = '', fuzzy = '') {
   if (!query) return list
 
   if (!precise && !fuzzy) return list
@@ -37,7 +34,7 @@ function filterSearch (list, query, precise, fuzzy) {
   const preciseCodes = precise.split(',')
   const fuzzyCodes = fuzzy.split(',')
 
-  return list.filter(row => {
+  return list.filter((row) => {
     let matched = true
 
     // 精准过滤
@@ -51,10 +48,10 @@ function filterSearch (list, query, precise, fuzzy) {
 }
 
 // 精准匹配
-function _preciseMatch (preciseCodes, state, query, row) {
+function _preciseMatch(preciseCodes, state, query, row) {
   let currentState = state
-  preciseCodes.forEach(pCode => {
-    if (!query[pCode]) {
+  preciseCodes.forEach((pCode) => {
+    if (!query[pCode] && query[pCode] !== 0) {
       currentState = currentState && true
     } else {
       const valSource = row[pCode]
@@ -66,9 +63,9 @@ function _preciseMatch (preciseCodes, state, query, row) {
 }
 
 // 模糊匹配
-function _fuzzyMatch (fuzzyCodes, state, query, row) {
+function _fuzzyMatch(fuzzyCodes, state, query, row) {
   let currentState = state
-  fuzzyCodes.forEach(fCode => {
+  fuzzyCodes.forEach((fCode) => {
     if (!query[fCode]) {
       currentState = currentState && true
     } else {
