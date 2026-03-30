@@ -23,6 +23,24 @@ const useHttpApis = require('./api/http')
 useHttpApis(app)
 
 // Start
-app.listen(8000, () => {
-  console.log('listen', 'http://localhost:8000/')
+const os = require('os')
+
+function getLocalIP() {
+  const interfaces = os.networkInterfaces()
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name]) {
+      if (iface.family === 'IPv4' && !iface.internal) {
+        return iface.address
+      }
+    }
+  }
+  return 'localhost'
+}
+
+const PORT = 8000
+app.listen(PORT, '0.0.0.0', () => {
+  const ip = getLocalIP()
+  console.log(`App running at:`)
+  console.log(`- Local:   http://localhost:${PORT}/`)
+  console.log(`- Network: http://${ip}:${PORT}/`)
 })
