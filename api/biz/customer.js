@@ -7,6 +7,7 @@ const mySheet = createMockSheet({
         'id|+1': 1,
         avatar: '@image("100x100", "#50B347", "#FFF", "avatar")',
         username: '@cname',
+        name: '@name',
         phone: /1[3-9]\d{9}/,
         totalTransaction: '@float(0, 100000, 2, 2)',
         totalTransactionCount: '@integer(0, 500)',
