@@ -10,6 +10,8 @@ function useHttpApis(app) {
   app.use('/gnss/mock', require('./routes/gnssMock'))
   app.use('/biz/customer', require('./routes/customer'))
   app.use('/biz/order', require('./routes/order'))
+  app.use('/biz/wallet', require('./routes/wallet'))
+  app.use('/archive', require('./routes/archive'))
 
   // 独立接口
   app.get('/queryInterval', function (req, res) {
