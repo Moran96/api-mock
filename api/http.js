@@ -13,6 +13,9 @@ function useHttpApis(app) {
   app.use('/biz/wallet', require('./routes/wallet'))
   app.use('/archive', require('./routes/archive'))
 
+  // 代理服务端接口
+  app.use('/api-proxy', require('./routes/proxy'))
+
   // 独立接口
   app.get('/queryInterval', function (req, res) {
     res.json(CommonApi.queryInterval())
