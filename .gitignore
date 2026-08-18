@@ -23,3 +23,10 @@ selenium-debug.log
 
 package-lock.json
 yarn.lock
+
+# Skill output reports (generated artifacts, not committed)
+.github/skills/*/reports/
+.github/skills/*/cache/
+
+.trae/skills/*/reports/
+.trae/skills/*/cache/

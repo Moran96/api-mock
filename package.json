@@ -16,7 +16,8 @@
     "express-ws": "^5.0.2",
     "mockjs": "^1.1.0",
     "node-dev": "^8.0.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "prettier": "^2.8.8"
