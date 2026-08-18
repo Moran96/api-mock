@@ -16,10 +16,14 @@ function buildAuthValue(token) {
   return token
 }
 
+// 上游响应体中代表鉴权失败的业务 code，命中后代理层拦截（避免前端换凭证死循环）
+const AUTH_ERROR_CODES = [40, 401, 403]
+
 module.exports = {
   TARGET_BASE_URL,
   TOKEN,
   COOKIE,
   AUTH_HEADER,
-  buildAuthValue
+  buildAuthValue,
+  AUTH_ERROR_CODES
 }

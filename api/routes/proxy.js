@@ -5,7 +5,8 @@ const {
   TOKEN,
   COOKIE,
   AUTH_HEADER,
-  buildAuthValue
+  buildAuthValue,
+  AUTH_ERROR_CODES
 } = require('../proxy')
 
 // 不应透传给目标服务器的请求头
@@ -58,6 +59,21 @@ function buildForwardBody(req) {
   return undefined
 }
 
+// 解析上游 JSON 响应体，返回 { code, msg }（非 JSON 或无 code 时返回 null）
+function parseBusinessError(response, buffer) {
+  const contentType = response.headers.get('content-type') || ''
+  if (!contentType.includes('application/json')) return null
+  try {
+    const data = JSON.parse(buffer.toString('utf8'))
+    if (data && typeof data.code === 'number') {
+      return { code: data.code, msg: data.msg }
+    }
+  } catch (_) {
+    // 忽略非法 JSON
+  }
+  return null
+}
+
 router.all('/*', async function (req, res) {
   const targetUrl = buildTargetUrl(req)
   try {
@@ -67,12 +83,25 @@ router.all('/*', async function (req, res) {
       body: buildForwardBody(req)
     })
 
+    const buffer = Buffer.from(await response.arrayBuffer())
+
+    // 拦截上游返回的鉴权失败业务码，避免前端换凭证死循环
+    const upstream = parseBusinessError(response, buffer)
+    if (upstream && AUTH_ERROR_CODES.includes(upstream.code)) {
+      console.warn(
+        `[proxy] upstream auth error ${upstream.code} on ${req.method} ${targetUrl}: ${upstream.msg}`
+      )
+      return res.status(502).json({
+        code: 'PROXY_AUTH_ERROR',
+        msg: 'Upstream auth failed, likely expired PROXY_TOKEN. Update .env and retry.',
+        upstream
+      })
+    }
+
     response.headers.forEach((value, key) => {
       if (STRIP_RESPONSE_HEADERS.includes(key.toLowerCase())) return
       res.setHeader(key, value)
     })
-
-    const buffer = Buffer.from(await response.arrayBuffer())
     res.status(response.status).send(buffer)
   } catch (err) {
     console.error(`[proxy] ${req.method} ${targetUrl} failed:`, err.message)
