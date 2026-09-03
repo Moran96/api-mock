@@ -56,7 +56,7 @@ function _preciseMatch(preciseCodes, state, query, row) {
     } else {
       const valSource = row[pCode]
       const valQuery = query[pCode]
-      currentState = currentState && valSource === valQuery
+      currentState = currentState && String(valSource) === String(valQuery)
     }
   })
   return currentState

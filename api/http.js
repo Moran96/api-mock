@@ -12,6 +12,8 @@ function useHttpApis(app) {
   app.use('/biz/order', require('./routes/order'))
   app.use('/biz/wallet', require('./routes/wallet'))
   app.use('/archive', require('./routes/archive'))
+  app.use('/ems', require('./routes/ems'))
+  app.use('/biz-farm', require('./routes/bizFarm'))
 
   // 代理服务端接口
   app.use('/api-proxy', require('./routes/proxy'))
